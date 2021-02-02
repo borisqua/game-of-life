@@ -1,0 +1,8 @@
+<svg class="icon icon-plus" viewBox="0 0 6 7" xmlns="http://www.w3.org/2000/svg">
+  <path d="M1 6 v-5 h4 l1 1 v4 z "
+        stroke="black" stroke-width=".5" fill="none"/>
+  <path d="M2 1 v2 h2 v-2 z"
+        stroke="black" stroke-width=".5" fill="none"/>
+  <path d="M2 6 v-2 h3 v2 z" stroke="black"
+        stroke-width=".5" fill="none"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg class="icon icon-plus" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="6" height="6"
+        stroke="lightblue" fill="white" stroke-width="1" opacity="0.5"/>
+  <path d="M.9 5 v-3.6 h3.7 v1.2"
+        stroke="#972" stroke-width=".5" fill="#972"/>
+  <path d="M.65 5 h4 l.7 -2.5 -1 0 -0.2 -0.5 -2.65 0 -.7 3 z"
+        stroke="#eb7" stroke-width=".3" stroke-linecap="square" fill="#eb7"/>
+</svg>
