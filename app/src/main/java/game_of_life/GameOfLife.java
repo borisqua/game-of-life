@@ -21,7 +21,7 @@ public class GameOfLife extends JFrame {
     private final int fps = 20;
     private final String userDirPath = System.getProperty("user.dir");
     private final String picsPath = userDirPath + File.separator +
-        "pics" + File.separator + "icons" + File.separator + "svg" + File.separator;
+        "pics" + File.separator + "icons" +  File.separator;
     
     private final int BUTTON_SIZE = 24;
     private Icon iconPlayButton = null;
@@ -83,13 +83,13 @@ public class GameOfLife extends JFrame {
         setLocationRelativeTo(null);
         
         try {
-            iconPlayButton = new ImageIcon(ImageIO.read(new File(picsPath + "play.svg"))
+            iconPlayButton = new ImageIcon(ImageIO.read(new File(picsPath + "play.png"))
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
             iconPauseButton = new ImageIcon(ImageIO.read(new File(picsPath + "pause.png"))
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
             iconResetButton = new ImageIcon(ImageIO.read(new File(picsPath + "reset.png"))
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
-            iconClearButton = new ImageIcon(ImageIO.read(new File(picsPath + "cancel.svg"))
+            iconClearButton = new ImageIcon(ImageIO.read(new File(picsPath + "openfile.png"))
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
         } catch (IOException ignored) {
         }
@@ -173,6 +173,7 @@ public class GameOfLife extends JFrame {
 }
 
 class LifeGrid extends JComponent {
+    // todo >> add mouse behaviour inverse state of the cell by the click.
     
     private int[][] squareMatrix;
     private final int cellSize;
@@ -191,6 +192,8 @@ class LifeGrid extends JComponent {
     
     @Override
     public Dimension getPreferredSize() {
+        // todo >> change behaviour something like tracking the game filed size and dynamically reallocate matrix of the universe
+        // todo >> change behaviour run universe in a modular world (modulo window size, optional)
         return new Dimension(cellSize * squareMatrix.length, cellSize * squareMatrix.length);
     }
     
@@ -202,11 +205,15 @@ class LifeGrid extends JComponent {
         for (int x = 0; x < getPreferredSize().width; x += cellSize) {
             for (int y = 0; y < getPreferredSize().height; y += cellSize) {
                 int neighborsCont = squareMatrix[y / cellSize][x / cellSize];
-                if (neighborsCont == 2) {
+                g2.setColor(Color.LIGHT_GRAY);//.brighter());//.darker().darker());
+                g2.drawRect(x,y ,cellSize, cellSize);
+                //todo >> track age of each cell
+                //todo >> change color in more shades depending on the age of the cell
+                if (neighborsCont == 2) { // survivors
                     g2.setColor(Color.GREEN.darker().darker());
                     g2.fillRect(x, y, cellSize, cellSize);
                 }
-                if (neighborsCont == 3) {
+                if (neighborsCont == 3) { // newborns
                     g2.setColor(Color.GREEN.darker());
                     g2.fillRect(x, y, cellSize, cellSize);
                 }
