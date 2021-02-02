@@ -1,0 +1,51 @@
+### Misc. & OS specific ###
+#data files
+data_files/
+mnist/
+*.bin
+.bin
+
+# dump/
+logs/
+.hidden/
+#.todo/
+src/app/*.html
+#OS specific files
+desktop.ini
+
+### Build files ###
+build/
+target/
+out/
+
+# Java
+*.class
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+/.idea/
+.idea/*.*
+*.iws
+*.iml
+*.ipr
+!.idea/compiler.xml
+
+### GRADLE ###
+# Gradle project specific hash directory
+.gradle/ 
+# Gradle wrapper
+!gradle/
+!gradlew*
+
+### Maven ###
+# Maveg wrapper
+!.mvn/wrapper/maven-wrapper.jar
+!mvnw*
