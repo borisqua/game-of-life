@@ -1,6 +1,6 @@
 # Game of life
 
-This app is a cellular automaton modeling the surviving process of a cell under a set of rules determining the conditions of dying, surviving, and reproduction.
+This app is a cellular automaton, modeling the surviving process of a cell under a set of rules determining the conditions of dying, surviving, and reproduction.
 
 Here are these rules: (we suppose living cell is non-empty cell, and dead is empty one)
 1. If a living cell has less than 2 living cells in adjacent 8 cells, then it dies by loneliness.
