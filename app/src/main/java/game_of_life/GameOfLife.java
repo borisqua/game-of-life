@@ -14,10 +14,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings({"DuplicatedCode", "FieldCanBeLocal"})
 public class GameOfLife extends JFrame {
     
-    private final int sizeOfUniverse = 50;
+    private final int sizeOfTheUniverse = 50;
     private final int fps = 20;
     private final String userDirPath = System.getProperty("user.dir");
     private final String picsPath = userDirPath + File.separator +
@@ -50,10 +49,11 @@ public class GameOfLife extends JFrame {
         aliveCellsCounterLabel.setName("AliveLabel");
         toggleButtonPausePlay.setName("PlayToggleButton");
         buttonReset.setName("ResetButton");
-        buttonClear.setName("ClearButton");
+        buttonClear.setName("ClearButton"); // todo >> add clear, save, open buttons
+        // todo >> add fps slider,add scale slider
         
-        grid = new LifeGrid(new int[sizeOfUniverse][sizeOfUniverse], 10);
-        universe = new Universe(sizeOfUniverse, grid);
+        grid = new LifeGrid(new int[sizeOfTheUniverse][sizeOfTheUniverse], 10);
+        universe = new Universe(sizeOfTheUniverse, grid);
         grid.setSquareMatrix(universe.getSpace());
         
         createBorderLayoutForm();
@@ -173,7 +173,7 @@ public class GameOfLife extends JFrame {
 }
 
 class LifeGrid extends JComponent {
-    // todo >> add mouse behaviour inverse state of the cell by the click.
+    // todo >> add a mouse click behaviour: inverse state of the cell by the click.
     
     private int[][] squareMatrix;
     private final int cellSize;
@@ -197,7 +197,6 @@ class LifeGrid extends JComponent {
         return new Dimension(cellSize * squareMatrix.length, cellSize * squareMatrix.length);
     }
     
-    @SuppressWarnings("DuplicatedCode")
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -206,6 +205,7 @@ class LifeGrid extends JComponent {
             for (int y = 0; y < getPreferredSize().height; y += cellSize) {
                 int neighborsCont = squareMatrix[y / cellSize][x / cellSize];
                 g2.setColor(Color.LIGHT_GRAY);//.brighter());//.darker().darker());
+                //g2.setStroke(new BasicStroke(1)); // default stroke is ok
                 g2.drawRect(x,y ,cellSize, cellSize);
                 //todo >> track age of each cell
                 //todo >> change color in more shades depending on the age of the cell
@@ -229,7 +229,6 @@ class LifeGrid extends JComponent {
     
 }
 
-@SuppressWarnings("DuplicatedCode")
 class Universe extends SwingWorker<Void, int[][]> {
     
     private final LifeGrid grid;
