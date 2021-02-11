@@ -28,12 +28,9 @@ public class UniverseTests {
         assertEquals(20, universe.getState().content[0].length);
     }
     
-    @Test
-    void getGeneration() {
-    }
     
     @Test
-    void setSpaceState() {
+    void getState() {
     }
     
     @Test
