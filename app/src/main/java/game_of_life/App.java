@@ -8,7 +8,7 @@ public class App {
         
         System.out.println("basics.collections.Main thread name: " + Thread.currentThread().getName() + " started.");
         
-        SwingUtilities.invokeLater(GameOfLife::new);
+        SwingUtilities.invokeLater(GameOfLifeWindow::new);
         
     }
     
