@@ -1,6 +1,6 @@
 package game_of_life;
 
-import game_of_life.core.StateOfTheUniverse;
+import game_of_life.core.State;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -143,9 +143,9 @@ public class GameOfLifeWindow extends JFrame {
         PropertyChangeListener listener = event -> {
             switch (event.getPropertyName()) {
                 case "nextGeneration":
-                    StateOfTheUniverse stateOfTheUniverse = (StateOfTheUniverse) event.getNewValue();
-                    generationsCounterLabel.setText("Generation #" + stateOfTheUniverse.generation);
-                    aliveCellsCounterLabel.setText("Alive: " + stateOfTheUniverse.population);
+                    State state = (State) event.getNewValue();
+                    generationsCounterLabel.setText("Generation #" + state.getGeneration());
+                    aliveCellsCounterLabel.setText("Alive: " + state.getPopulation());
                     break;
                 case "paused":
                     // change pause/resume button face

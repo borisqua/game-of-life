@@ -1,6 +1,6 @@
 package game_of_life;
 
-import game_of_life.core.StateOfTheUniverse;
+import game_of_life.core.State;
 import game_of_life.core.Universe;
 
 import javax.swing.*;
@@ -24,23 +24,15 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
     }
     
     public void randomFill() {
-        int generation = 0;
-        int population = 0;
         int[][] newContent = new int[size][size];
         pause();
+        Random rnd = new Random(System.currentTimeMillis() % 1_000_000_009L);
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
-                Random rnd = new Random();
                 newContent[r][c] = rnd.nextInt(4); // with 4 the start state is most dense
-                int neighborCount = newContent[r][c];
-                if (neighborCount == 2 || neighborCount == 3) {
-                    population++;
-                }
             }
         }
-        universe.getState().content = newContent;
-        universe.getState().generation = generation;
-        universe.getState().population = population;
+        universe.setContent(newContent);
     }
     
     public boolean isPaused() {
@@ -62,7 +54,7 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
     }
     
     public int[][] getUniverseContent() {
-        return universe.getState().content;
+        return universe.getState().getContent();
     }
     
     public void setFps(int fps) {
@@ -76,13 +68,11 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
             while (!isCancelled()) {
                 TimeUnit.MILLISECONDS.sleep(1000 / fps);
                 if (!isPaused()) {
-                    StateOfTheUniverse prevStateOfTheUniverse = new StateOfTheUniverse(
-                        universe.getState().generation, universe.getState().population, universe.getState().content.clone());
+                    State prevState = new State(universe.getState().getGeneration(), universe.getState().getContent());
                     universe.next();
-                    publish(universe.getState().content);
-                    firePropertyChange("nextGeneration", prevStateOfTheUniverse,
-                        new StateOfTheUniverse(
-                            universe.getState().generation, universe.getState().population, universe.getState().content));
+                    publish(universe.getState().getContent());
+                    firePropertyChange("nextGeneration", prevState,
+                        new State(universe.getState().getGeneration(), universe.getState().getContent()));
                 }
             }
             
