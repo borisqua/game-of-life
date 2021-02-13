@@ -5,7 +5,7 @@ public class State {
     int population;
     int[][] content;
     
-    public State(int generation, int[][] content) {
+    public State(int[][] content) {
         setContent(content);
     }
     
@@ -32,4 +32,5 @@ public class State {
     public int getGeneration() {
         return generation;
     }
+    
 }

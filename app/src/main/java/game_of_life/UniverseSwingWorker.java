@@ -33,6 +33,7 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
             }
         }
         universe.setContent(newContent);
+        publish(newContent);
     }
     
     public boolean isPaused() {
@@ -68,11 +69,14 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
             while (!isCancelled()) {
                 TimeUnit.MILLISECONDS.sleep(1000 / fps);
                 if (!isPaused()) {
-                    State prevState = new State(universe.getState().getGeneration(), universe.getState().getContent());
+                    State prevState = new State(universe.getState().getContent());
                     universe.next();
                     publish(universe.getState().getContent());
+                    // todo>> Pass grid content and statistics in one way.
+                    //  (Because here the race condition may occur.
+                    //  This is n0t obvious which of the events, fired one or published, will pop first.)
                     firePropertyChange("nextGeneration", prevState,
-                        new State(universe.getState().getGeneration(), universe.getState().getContent()));
+                        new State(universe.getState().getContent()));
                 }
             }
             

@@ -146,6 +146,7 @@ public class GameOfLifeWindow extends JFrame {
                     State state = (State) event.getNewValue();
                     generationsCounterLabel.setText("Generation #" + state.getGeneration());
                     aliveCellsCounterLabel.setText("Alive: " + state.getPopulation());
+                    grid.setSquareMatrix(state.getContent());
                     break;
                 case "paused":
                     // change pause/resume button face
