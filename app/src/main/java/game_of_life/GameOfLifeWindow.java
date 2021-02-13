@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -141,8 +140,10 @@ public class GameOfLifeWindow extends JFrame {
     
     private void addListeners() {
         
+/*
         PropertyChangeListener listener = event -> {
             switch (event.getPropertyName()) {
+*/
 /*
                 case "nextGeneration":
                     State state = (State) event.getNewValue();
@@ -150,12 +151,14 @@ public class GameOfLifeWindow extends JFrame {
                     aliveCellsCounterLabel.setText("Alive: " + state.getPopulation());
                     grid.setSquareMatrix(state.getContent());
                     break;
-*/
+*//*
+
                 case "paused":
                     // change pause/resume button face
                     break;
             }
         };
+*/
         
         ActionListener actionListenerForPausePlay = event -> {
             if (toggleButtonPausePlay.isSelected()) {
@@ -177,7 +180,7 @@ public class GameOfLifeWindow extends JFrame {
         
         toggleButtonPausePlay.addActionListener(actionListenerForPausePlay);
         buttonReset.addActionListener(actionListenerForResetButton);
-        universeSwingWorker.addPropertyChangeListener(listener);
+//        universeSwingWorker.addPropertyChangeListener(listener);
     }
 }
 

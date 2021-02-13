@@ -47,7 +47,7 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
     public void pause() {
         if (!isPaused() && !isDone()) {
             paused = true;
-            firePropertyChange("paused", false, true);
+//            firePropertyChange("paused", false, true);
         }
     }
     
