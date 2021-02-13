@@ -76,9 +76,6 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
 //                    State prevState = new State(universe.getState().getContent());
                     universe.next();
                     publish(universe.getState());
-                    // todo>> Pass grid content and statistics in one way.
-                    //  (Because here the race condition may occur.
-                    //  This is n0t obvious which of the events, fired one or published, will pop first.)
 //                    firePropertyChange("nextGeneration", prevState,
 //                        new State(universe.getState().getContent()));
                 }
