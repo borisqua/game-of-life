@@ -54,7 +54,7 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
     public void resume() {
         if (!isDone() && isPaused()) {
             paused = false;
-            firePropertyChange("paused", true, false);
+//            firePropertyChange("paused", true, false);
         }
     }
     
@@ -100,6 +100,5 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
             populationMonitor.setText("Alive: " + state.getPopulation());
         });
     }
-    
     
 }
