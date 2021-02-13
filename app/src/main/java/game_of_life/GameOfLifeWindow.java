@@ -1,7 +1,5 @@
 package game_of_life;
 
-import game_of_life.core.State;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -37,6 +35,8 @@ public class GameOfLifeWindow extends JFrame {
 //    JSlider fpsSlider = new JSlider(JSlider.VERTICAL, 0 , 100, 10);
 //    JSlider scaleSlider = new JSlider(JSlider.VERTICAL, 1 , 100, 50);
     
+//    JPanel controls = new JPanel(new FlowLayout(FlowLayout.TRAILING), true); // todo?? why isDoubleBuffered
+    
     private final UniverseGridComponent grid;
     private final UniverseSwingWorker universeSwingWorker;
     
@@ -55,10 +55,11 @@ public class GameOfLifeWindow extends JFrame {
         buttonClear.setName("ClearButton");
         buttonClear.setName("SavePatternButton");
         buttonClear.setName("LoadPatternButton");
-        // todo >> add fps slider,add scale slider
+        // todo>> add fps slider,
+        // todo>> add scale slider
         
         grid = new UniverseGridComponent(new int[sizeOfTheUniverse][sizeOfTheUniverse], 10);
-        universeSwingWorker = new UniverseSwingWorker(sizeOfTheUniverse, grid);
+        universeSwingWorker = new UniverseSwingWorker(sizeOfTheUniverse, grid, generationsCounterLabel, aliveCellsCounterLabel);
         grid.setSquareMatrix(universeSwingWorker.getUniverseContent());
         
         createBorderLayoutForm();
@@ -142,12 +143,14 @@ public class GameOfLifeWindow extends JFrame {
         
         PropertyChangeListener listener = event -> {
             switch (event.getPropertyName()) {
+/*
                 case "nextGeneration":
                     State state = (State) event.getNewValue();
                     generationsCounterLabel.setText("Generation #" + state.getGeneration());
                     aliveCellsCounterLabel.setText("Alive: " + state.getPopulation());
                     grid.setSquareMatrix(state.getContent());
                     break;
+*/
                 case "paused":
                     // change pause/resume button face
                     break;

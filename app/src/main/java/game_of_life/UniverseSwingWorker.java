@@ -8,17 +8,21 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
+class UniverseSwingWorker extends SwingWorker<Void, State> {
     
     private final Universe universe;
     private final UniverseGridComponent grid;
+    private final JLabel generationMonitor;
+    private final JLabel populationMonitor;
     private final int size;
     private int fps = 24;
     private volatile boolean paused = true;
     
-    UniverseSwingWorker(int size, UniverseGridComponent grid) {
+    UniverseSwingWorker(int size, UniverseGridComponent grid, JLabel generationMonitor, JLabel populationMonitor ) {
         universe = new Universe(size, size);
         this.grid = grid;
+        this.generationMonitor = generationMonitor;
+        this.populationMonitor = populationMonitor;
         this.size = size;
         randomFill();
     }
@@ -33,7 +37,7 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
             }
         }
         universe.setContent(newContent);
-        publish(newContent);
+        publish(universe.getState());
     }
     
     public boolean isPaused() {
@@ -69,14 +73,14 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
             while (!isCancelled()) {
                 TimeUnit.MILLISECONDS.sleep(1000 / fps);
                 if (!isPaused()) {
-                    State prevState = new State(universe.getState().getContent());
+//                    State prevState = new State(universe.getState().getContent());
                     universe.next();
-                    publish(universe.getState().getContent());
+                    publish(universe.getState());
                     // todo>> Pass grid content and statistics in one way.
                     //  (Because here the race condition may occur.
                     //  This is n0t obvious which of the events, fired one or published, will pop first.)
-                    firePropertyChange("nextGeneration", prevState,
-                        new State(universe.getState().getContent()));
+//                    firePropertyChange("nextGeneration", prevState,
+//                        new State(universe.getState().getContent()));
                 }
             }
             
@@ -92,8 +96,12 @@ class UniverseSwingWorker extends SwingWorker<Void, int[][]> {
     }
     
     @Override
-    protected void process(List<int[][]> generationsOfContent) {
-        generationsOfContent.forEach(grid::setSquareMatrix);
+    protected void process(List<State> generationsOfUniverseStates) {
+        generationsOfUniverseStates.forEach(state -> {
+            grid.setSquareMatrix(state.getContent());
+            generationMonitor.setText("Generation #" + state.getGeneration());
+            populationMonitor.setText("Alive: " + state.getPopulation());
+        });
     }
     
     
