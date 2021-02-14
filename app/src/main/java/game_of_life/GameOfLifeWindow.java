@@ -16,24 +16,28 @@ public class GameOfLifeWindow extends JFrame {
     private final int fps = 20;
     private final String userDirPath = System.getProperty("user.dir");
     private final String picsPath = userDirPath + File.separator +
-        "pics" + File.separator + "icons" +  File.separator;
+        "pics" + File.separator + "icons" + File.separator + "png" + File.separator + "set1" + File.separator;;
     
     private final int BUTTON_SIZE = 24;
     private Icon iconPlayButton = null;
     private Icon iconPauseButton = null;
+    private Icon iconSetRandomButton = null;
     private Icon iconResetButton = null;
     private Icon iconClearButton = null;
+    private Icon iconLoadPatternButton = null;
+    private Icon iconSavePatternButton = null;
     
     JLabel generationsCounterLabel = new JLabel("Generation #");
     JLabel aliveCellsCounterLabel = new JLabel("Alive: ");
     JToggleButton toggleButtonPausePlay = new JToggleButton();
+    JButton buttonSetRandom = new JButton();
     JButton buttonReset = new JButton();
     JButton buttonClear = new JButton();
-//    JButton buttonSavePattern = new JButton();
-//    JButton buttonLoadPattern = new JButton();
+    JButton buttonSavePattern = new JButton();
+    JButton buttonLoadPattern = new JButton();
 //    JSlider fpsSlider = new JSlider(JSlider.VERTICAL, 0 , 100, 10);
 //    JSlider scaleSlider = new JSlider(JSlider.VERTICAL, 1 , 100, 50);
-    
+
 //    JPanel controls = new JPanel(new FlowLayout(FlowLayout.TRAILING), true); // todo?? why isDoubleBuffered
     
     private final UniverseGridComponent grid;
@@ -50,10 +54,11 @@ public class GameOfLifeWindow extends JFrame {
         generationsCounterLabel.setName("GenerationLabel");
         aliveCellsCounterLabel.setName("AliveLabel");
         toggleButtonPausePlay.setName("PlayToggleButton");
+        buttonSetRandom.setName("SetRandomButton");
         buttonReset.setName("ResetButton");
         buttonClear.setName("ClearButton");
-        buttonClear.setName("SavePatternButton");
-        buttonClear.setName("LoadPatternButton");
+        buttonSavePattern.setName("SavePatternButton");
+        buttonLoadPattern.setName("LoadPatternButton");
         // todo>> add fps slider,
         // todo>> add scale slider
         
@@ -92,10 +97,17 @@ public class GameOfLifeWindow extends JFrame {
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
             iconPauseButton = new ImageIcon(ImageIO.read(new File(picsPath + "pause.png"))
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
-            iconResetButton = new ImageIcon(ImageIO.read(new File(picsPath + "reset.png"))
+            iconSetRandomButton = new ImageIcon(ImageIO.read(new File(picsPath + "random.png"))
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
-            iconClearButton = new ImageIcon(ImageIO.read(new File(picsPath + "openfile.png"))
+            iconResetButton = new ImageIcon(ImageIO.read(new File(picsPath + "refresh.png"))
                 .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
+            iconClearButton = new ImageIcon(ImageIO.read(new File(picsPath + "reset.png"))
+                .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
+            iconLoadPatternButton = new ImageIcon(ImageIO.read(new File(picsPath + "open_color.png"))
+                .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
+            iconSavePatternButton = new ImageIcon(ImageIO.read(new File(picsPath + "save_color.png"))
+                .getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH));
+                
         } catch (IOException ignored) {
         }
         
@@ -109,31 +121,52 @@ public class GameOfLifeWindow extends JFrame {
         panelButtons.setBorder(margins10);
         toggleButtonPausePlay.setMargin(new Insets(5, 5, 5, 5));
         toggleButtonPausePlay.setIcon(iconPlayButton);
+        buttonSetRandom.setMargin(new Insets(5, 5, 5, 5));
+        buttonSetRandom.setIcon(iconSetRandomButton);
         buttonReset.setMargin(new Insets(5, 5, 5, 5));
         buttonReset.setIcon(iconResetButton);
         buttonClear.setMargin(new Insets(5, 5, 5, 5));
         buttonClear.setIcon(iconClearButton);
+        buttonSavePattern.setMargin(new Insets(5, 5, 5, 5));
+        buttonSavePattern.setIcon(iconSavePatternButton);
+        buttonLoadPattern.setMargin(new Insets(5, 5, 5, 5));
+        buttonLoadPattern.setIcon(iconLoadPatternButton);
         panelButtons.add(toggleButtonPausePlay);
         panelButtons.add(Box.createRigidArea(new Dimension(10, 10)));
+        panelButtons.add(buttonSetRandom);
+        panelButtons.add(Box.createRigidArea(new Dimension(10, 10)));
         panelButtons.add(buttonReset);
+        panelButtons.add(Box.createRigidArea(new Dimension(10, 10)));
+        panelButtons.add(buttonClear);
+        panelButtons.add(Box.createRigidArea(new Dimension(10, 10)));
+        panelButtons.add(buttonLoadPattern);
+        panelButtons.add(Box.createRigidArea(new Dimension(10, 10)));
+        panelButtons.add(buttonSavePattern);
         panelButtons.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         panelButtons.setAlignmentY(JPanel.TOP_ALIGNMENT);
         
         JPanel panelCounters = new JPanel();
-        panelCounters.setLayout(new BoxLayout(panelCounters, BoxLayout.Y_AXIS));
+        
+        panelCounters.setLayout(new BoxLayout(panelCounters, BoxLayout.X_AXIS));
         panelCounters.setBorder(margins10);
         panelCounters.add(generationsCounterLabel);
+        panelCounters.add(Box.createRigidArea(new Dimension(10, 10)));
         panelCounters.add(aliveCellsCounterLabel);
         panelButtons.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         panelButtons.setAlignmentY(JPanel.TOP_ALIGNMENT);
         
+/*
         JPanel panelControls = new JPanel();
+        
         panelControls.setLayout(new BoxLayout(panelControls, BoxLayout.Y_AXIS));
         panelControls.add(panelButtons);
         panelControls.add(panelCounters);
         
         panelControls.setBorder(margins10);
-        add(panelControls, BorderLayout.WEST);
+*/
+        
+        add(panelButtons, BorderLayout.NORTH);
+        add(panelCounters, BorderLayout.SOUTH);
         add(grid, BorderLayout.CENTER);
         
     }
