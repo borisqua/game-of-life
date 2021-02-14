@@ -48,8 +48,8 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
         }
     }
     
-    public int[][] getUniverseContent() {
-        return universe.getState().getContent();
+    public State getUniverseState() {
+        return universe.getState();
     }
     
     public void setFps(int fps) {

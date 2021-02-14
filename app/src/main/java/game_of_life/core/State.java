@@ -10,6 +10,7 @@ public class State {
     }
     
     public void setContent(int[][] newContent) {
+        population = 0;
         this.generation = 1;
         this.content = newContent;
         for (int row = 0; row < newContent.length; row++) {

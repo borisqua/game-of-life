@@ -1,5 +1,7 @@
 package game_of_life;
 
+import game_of_life.core.State;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -30,7 +32,7 @@ public class GameOfLifeWindow extends JFrame {
     private Icon iconSavePatternButton = null;
     
     JLabel generationsCounterLabel = new JLabel("Generation #");
-    JLabel aliveCellsCounterLabel = new JLabel("Alive: ");
+    JLabel populationCounterLabel = new JLabel("Alive: ");
     JToggleButton toggleButtonPausePlay = new JToggleButton();
     JButton buttonSetRandom = new JButton();
     JButton buttonReset = new JButton();
@@ -54,7 +56,7 @@ public class GameOfLifeWindow extends JFrame {
             + "; is the event dispatch thread? " + (SwingUtilities.isEventDispatchThread() ? "Yes" : "No"));
         
         generationsCounterLabel.setName("GenerationLabel");
-        aliveCellsCounterLabel.setName("AliveLabel");
+        populationCounterLabel.setName("AliveLabel");
         toggleButtonPausePlay.setName("PlayToggleButton");
         buttonSetRandom.setName("SetRandomButton");
         buttonReset.setName("ResetButton");
@@ -65,8 +67,8 @@ public class GameOfLifeWindow extends JFrame {
         // todo>> add scale slider
         
         grid = new UniverseGridComponent(new int[sizeOfTheUniverse][sizeOfTheUniverse], 10);
-        universeSwingWorker = new UniverseSwingWorker(sizeOfTheUniverse, grid, generationsCounterLabel, aliveCellsCounterLabel);
-        grid.setMatrix(universeSwingWorker.getUniverseContent());
+        universeSwingWorker = new UniverseSwingWorker(sizeOfTheUniverse, grid, generationsCounterLabel, populationCounterLabel);
+        grid.setMatrix(universeSwingWorker.getUniverseState().getContent());
         
         createBorderLayoutForm();
         addListeners();
@@ -153,7 +155,7 @@ public class GameOfLifeWindow extends JFrame {
         panelCounters.setBorder(margins10);
         panelCounters.add(generationsCounterLabel);
         panelCounters.add(Box.createRigidArea(new Dimension(10, 10)));
-        panelCounters.add(aliveCellsCounterLabel);
+        panelCounters.add(populationCounterLabel);
         panelButtons.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         panelButtons.setAlignmentY(JPanel.TOP_ALIGNMENT);
         
@@ -188,7 +190,7 @@ public class GameOfLifeWindow extends JFrame {
         ActionListener actionListenerForPausePlay = event -> {
             if (toggleButtonPausePlay.isSelected()) {
                 toggleButtonPausePlay.setIcon(iconPauseButton);
-                prevContent = universeSwingWorker.getUniverseContent();
+                prevContent = universeSwingWorker.getUniverseState().getContent();
                 universeSwingWorker.resume();
             } else {
                 toggleButtonPausePlay.setIcon(iconPlayButton);
@@ -198,12 +200,12 @@ public class GameOfLifeWindow extends JFrame {
     
         ActionListener actionListenerForRandomFillButton = event -> {
             universeSwingWorker.pause();
-            prevContent = universeSwingWorker.getUniverseContent();
+            prevContent = universeSwingWorker.getUniverseState().getContent();
             toggleButtonPausePlay.setIcon(iconPlayButton);
             toggleButtonPausePlay.setSelected(false);
             universeSwingWorker.setContent(fillWithRandoms(prevContent));
-            grid.setMatrix(universeSwingWorker.getUniverseContent());
-        
+            grid.setMatrix(universeSwingWorker.getUniverseState().getContent());
+            setStateStatistics(universeSwingWorker.getUniverseState());
         };
     
         ActionListener actionListenerForResetButton = event -> {
@@ -211,17 +213,18 @@ public class GameOfLifeWindow extends JFrame {
             toggleButtonPausePlay.setIcon(iconPlayButton);
             toggleButtonPausePlay.setSelected(false);
             universeSwingWorker.setContent(prevContent);
-            grid.setMatrix(universeSwingWorker.getUniverseContent());
-            
+            grid.setMatrix(universeSwingWorker.getUniverseState().getContent());
+            setStateStatistics(universeSwingWorker.getUniverseState());
         };
     
         ActionListener actionListenerForClearButton = event -> {
+            universeSwingWorker.pause();
             toggleButtonPausePlay.setIcon(iconPlayButton);
             toggleButtonPausePlay.setSelected(false);
-            prevContent = universeSwingWorker.getUniverseContent();
+            prevContent = universeSwingWorker.getUniverseState().getContent();
             universeSwingWorker.setContent(new int[prevContent.length][prevContent[0].length]);
-            grid.setMatrix(universeSwingWorker.getUniverseContent());
-        
+            grid.setMatrix(universeSwingWorker.getUniverseState().getContent());
+            setStateStatistics(universeSwingWorker.getUniverseState());
         };
     
         toggleButtonPausePlay.addActionListener(actionListenerForPausePlay);
@@ -244,5 +247,9 @@ public class GameOfLifeWindow extends JFrame {
         return newContent;
     }
     
+    private void setStateStatistics(State state) {
+        generationsCounterLabel.setText("Generation #" + state.getGeneration());
+        populationCounterLabel.setText("Alive: " + state.getPopulation());
+    }
 }
 
