@@ -33,7 +33,7 @@ public class UniverseTests {
     }
     
     @Test
-    @Order(1)
+//    @Order(1)
     @DisplayName("Check if instance of the universe successfully instantiated and contains correct state information.")
     void testInstantiating() {
         assertNotNull(universe);
@@ -45,7 +45,7 @@ public class UniverseTests {
     }
     
     @Test
-    @Order(2)
+//    @Order(2)
     @DisplayName("Check if getState method returns correct state information")
     void getState() {
         int[] arr = new int[8];
@@ -80,7 +80,7 @@ public class UniverseTests {
     }
     
     @Test
-    @Order(3)
+//    @Order(3)
     @DisplayName("Check if setCellAlive(row, column) works as expected")
     void setCellAlive() {
         
@@ -202,7 +202,7 @@ public class UniverseTests {
     }
     
     @Test
-    @Order(4)
+//    @Order(4)
     @DisplayName("Check if resetSpaceState() works as expected")
     void resetSpaceState() {
         
@@ -245,7 +245,7 @@ public class UniverseTests {
     }
     
     @Test
-    @Order(4)
+//    @Order(4)
     @DisplayName("Check if next() works as expected")
     void next() {
         assertEquals(0, universe.getState().population);

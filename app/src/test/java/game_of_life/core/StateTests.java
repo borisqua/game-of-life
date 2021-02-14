@@ -2,13 +2,13 @@ package game_of_life.core;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Testing the state of the universe class: game_of_life.core.State")
 class StateTests {
@@ -28,7 +28,7 @@ class StateTests {
     }
     
     @Test
-    @Order(0)
+//    @Order(0)
     @DisplayName("Check if instance of the universe state successfully instantiated and contains correct information.")
     void testInstantiating() {
         assertNotNull(state);
@@ -39,7 +39,7 @@ class StateTests {
     }
     
     @Test
-    @Order(1)
+//    @Order(1)
     @DisplayName("Check if state instance returns correct content matrix.")
     void getContent() {
         int[][] content = state.getContent();
@@ -52,7 +52,7 @@ class StateTests {
     }
     
     @Test
-    @Order(2)
+//    @Order(2)
     @DisplayName("Check if state instance correctly sets new content matrix.")
     void setContent() {
         int[] arr = new int[columns * 2];
@@ -68,7 +68,7 @@ class StateTests {
     }
     
     @Test
-    @Order(3)
+//    @Order(3)
     @DisplayName("Check if state instance returns correct population value.")
     void getPopulation() {
         
@@ -84,7 +84,7 @@ class StateTests {
     }
     
     @Test
-    @Order(3)
+//    @Order(3)
     @DisplayName("Check if state instance returns correct generation value.")
     void getGeneration() {
         assertEquals(1, state.getGeneration());
