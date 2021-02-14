@@ -8,9 +8,8 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Testing the universe class: game_of_life.core.Universe")
-//@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class UniverseTests {
     
     Random rnd = new Random(System.currentTimeMillis() % 1_000_000_009L/*large prime*/);

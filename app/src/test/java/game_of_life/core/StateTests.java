@@ -10,6 +10,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Testing the state of the universe class: game_of_life.core.State")
 class StateTests {
     
