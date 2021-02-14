@@ -51,7 +51,7 @@ class UniverseGridComponent extends JComponent {
         }
     }
     
-    public void setSquareMatrix(int[][] squareMatrix) {
+    public void setMatrix(int[][] squareMatrix) {
         this.squareMatrix = squareMatrix;
         repaint();
 //    paintImmediately(gridCanvas);

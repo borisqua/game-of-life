@@ -5,7 +5,6 @@ import game_of_life.core.Universe;
 
 import javax.swing.*;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 class UniverseSwingWorker extends SwingWorker<Void, State> {
@@ -14,7 +13,7 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
     private final UniverseGridComponent grid;
     private final JLabel generationMonitor;
     private final JLabel populationMonitor;
-    private final int size;
+    private final int size; // todo>> not only square matrix
     private int fps = 24;
     private volatile boolean paused = true;
     
@@ -24,18 +23,9 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
         this.generationMonitor = generationMonitor;
         this.populationMonitor = populationMonitor;
         this.size = size;
-        randomFill();
     }
     
-    public void randomFill() {
-        int[][] newContent = new int[size][size];
-        pause();
-        Random rnd = new Random(System.currentTimeMillis() % 1_000_000_009L);
-        for (int r = 0; r < size; r++) {
-            for (int c = 0; c < size; c++) {
-                newContent[r][c] = rnd.nextInt(4); // with 4 the start state is most dense
-            }
-        }
+    public void setContent(int[][] newContent) {
         universe.setContent(newContent);
         publish(universe.getState());
     }
@@ -95,7 +85,7 @@ class UniverseSwingWorker extends SwingWorker<Void, State> {
     @Override
     protected void process(List<State> generationsOfUniverseStates) {
         generationsOfUniverseStates.forEach(state -> {
-            grid.setSquareMatrix(state.getContent());
+            grid.setMatrix(state.getContent());
             generationMonitor.setText("Generation #" + state.getGeneration());
             populationMonitor.setText("Alive: " + state.getPopulation());
         });

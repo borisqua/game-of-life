@@ -9,9 +9,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class GameOfLifeWindow extends JFrame {
     
+    private int[][] prevContent;
     private final int sizeOfTheUniverse = 50;
     private final int fps = 20;
     private final String userDirPath = System.getProperty("user.dir");
@@ -64,7 +66,7 @@ public class GameOfLifeWindow extends JFrame {
         
         grid = new UniverseGridComponent(new int[sizeOfTheUniverse][sizeOfTheUniverse], 10);
         universeSwingWorker = new UniverseSwingWorker(sizeOfTheUniverse, grid, generationsCounterLabel, aliveCellsCounterLabel);
-        grid.setSquareMatrix(universeSwingWorker.getUniverseContent());
+        grid.setMatrix(universeSwingWorker.getUniverseContent());
         
         createBorderLayoutForm();
         addListeners();
@@ -155,16 +157,6 @@ public class GameOfLifeWindow extends JFrame {
         panelButtons.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         panelButtons.setAlignmentY(JPanel.TOP_ALIGNMENT);
         
-/*
-        JPanel panelControls = new JPanel();
-        
-        panelControls.setLayout(new BoxLayout(panelControls, BoxLayout.Y_AXIS));
-        panelControls.add(panelButtons);
-        panelControls.add(panelCounters);
-        
-        panelControls.setBorder(margins10);
-*/
-        
         add(panelButtons, BorderLayout.NORTH);
         add(panelCounters, BorderLayout.SOUTH);
         add(grid, BorderLayout.CENTER);
@@ -182,7 +174,7 @@ public class GameOfLifeWindow extends JFrame {
                     State state = (State) event.getNewValue();
                     generationsCounterLabel.setText("Generation #" + state.getGeneration());
                     aliveCellsCounterLabel.setText("Alive: " + state.getPopulation());
-                    grid.setSquareMatrix(state.getContent());
+                    grid.setMatrix(state.getContent());
                     break;
 *//*
 
@@ -196,24 +188,61 @@ public class GameOfLifeWindow extends JFrame {
         ActionListener actionListenerForPausePlay = event -> {
             if (toggleButtonPausePlay.isSelected()) {
                 toggleButtonPausePlay.setIcon(iconPauseButton);
+                prevContent = universeSwingWorker.getUniverseContent();
                 universeSwingWorker.resume();
             } else {
                 toggleButtonPausePlay.setIcon(iconPlayButton);
                 universeSwingWorker.pause();
             }
         };
-        
-        ActionListener actionListenerForResetButton = event -> {
+    
+        ActionListener actionListenerForRandomFillButton = event -> {
+            universeSwingWorker.pause();
+            prevContent = universeSwingWorker.getUniverseContent();
             toggleButtonPausePlay.setIcon(iconPlayButton);
             toggleButtonPausePlay.setSelected(false);
-            universeSwingWorker.randomFill();
-            grid.setSquareMatrix(universeSwingWorker.getUniverseContent());
+            universeSwingWorker.setContent(fillWithRandoms(prevContent));
+            grid.setMatrix(universeSwingWorker.getUniverseContent());
+        
+        };
+    
+        ActionListener actionListenerForResetButton = event -> {
+            universeSwingWorker.pause();
+            toggleButtonPausePlay.setIcon(iconPlayButton);
+            toggleButtonPausePlay.setSelected(false);
+            universeSwingWorker.setContent(prevContent);
+            grid.setMatrix(universeSwingWorker.getUniverseContent());
             
         };
+    
+        ActionListener actionListenerForClearButton = event -> {
+            toggleButtonPausePlay.setIcon(iconPlayButton);
+            toggleButtonPausePlay.setSelected(false);
+            prevContent = universeSwingWorker.getUniverseContent();
+            universeSwingWorker.setContent(new int[prevContent.length][prevContent[0].length]);
+            grid.setMatrix(universeSwingWorker.getUniverseContent());
         
+        };
+    
         toggleButtonPausePlay.addActionListener(actionListenerForPausePlay);
+        buttonSetRandom.addActionListener(actionListenerForRandomFillButton);
         buttonReset.addActionListener(actionListenerForResetButton);
+        buttonClear.addActionListener(actionListenerForClearButton);
 //        universeSwingWorker.addPropertyChangeListener(listener);
     }
+    
+    private int[][] fillWithRandoms(int[][] contentMatrix) {
+        int rows = contentMatrix.length;
+        int columns = contentMatrix[0].length;
+        int[][] newContent = new int[rows][columns];
+        Random rnd = new Random(System.currentTimeMillis() % 1_000_000_009L);
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                newContent[r][c] = rnd.nextInt(4); // with 4 the start state is most dense
+            }
+        }
+        return newContent;
+    }
+    
 }
 
