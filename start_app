@@ -1,3 +1,4 @@
-#1/usr/bin/bash
+#!/usr/bin/bash
 ./gradlew clean build
+echo start app
 java -jar app/build/libs/app.jar

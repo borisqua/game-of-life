@@ -4,10 +4,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Hello from Jenkins"'
+                echo "Building app..."
+                sh './gradlew clean build'
                 sh '''
-                echo "Multiline shell steps work too"
-                ls -lah
+                echo "Starting app..."
+                java -jar app/build/libs/app.jar
                 '''
             }
         }
