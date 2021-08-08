@@ -12,8 +12,8 @@ pipeline {
             steps {
                 sh '''
                 echo "Starting app..."
-//                 java -jar app/build/libs/app.jar
                 '''
+//                 java -jar app/build/libs/app.jar
             }
         }
     }
