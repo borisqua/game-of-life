@@ -1,9 +1,14 @@
 pipeline {
-    agent { docker { image 'maven:3.3.3' } }
+    agent any
+    //{ docker { image 'maven:3.3.3' } }
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                sh 'mvn --version'
+                sh 'echo "Hello from Jenkins"'
+                sh '''
+                echo "Multiline shell steps work too"
+                ls -lah
+                '''
             }
         }
     }
