@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                 echo "Starting app..."
-                echo "Authentications is ${DISABLE_AUTH == 'true' ? 'disabled : enabled'}"
+                echo "DISABLE_AUTH = ${DISABLE_AUTH}"
                 '''
 //                 java -jar app/build/libs/app.jar
             }
