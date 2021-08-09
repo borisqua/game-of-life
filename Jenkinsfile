@@ -28,7 +28,7 @@ pipeline {
                 echo "Starting app..."
                 echo "DISABLE_AUTH = ${DISABLE_AUTH}"
                 '''
-                sh 'echo printenv'
+                sh 'printenv'
 //                 java -jar app/build/libs/app.jar
             }
         }
